@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>{{ course.title }}</h2>
+        <p class="text-muted">Викладач: {{ course.teacher.username }}</p>
+        <p>{{ course.description }}</p>
+
+        <h4 class="mt-4">Уроки</h4>
+        {% if lessons %}
+            <div class="list-group">
+                {% for lesson in lessons %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        {% if lesson.pk in completed_lessons %}
+                            ✅
+                        {% else %}
+                            📖
+                        {% endif %}
+                        {{ lesson.order }}. {{ lesson.title }}
+                    </div>
+                    {% if is_enrolled %}
+                        <a href="/lessons/{{ lesson.pk }}/" class="btn btn-sm btn-outline-primary">Переглянути</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Уроків поки немає.</p>
+        {% endif %}
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    {% if user.is_student %}
+                        {% if is_enrolled %}
+                            <p class="text-success">✅ Ви записані на курс</p>
+                            <a href="/courses/{{ course.pk }}/certificate/" class="btn btn-success w-100">
+                                Отримати сертифікат
+                            </a>
+                        {% else %}
+                            <a href="/courses/{{ course.pk }}/enroll/" class="btn btn-primary w-100">
+                                Записатись на курс
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    {% if user.is_teacher and user == course.teacher %}
+                        <a href="/courses/{{ course.pk }}/lessons/add/" class="btn btn-outline-secondary w-100 mt-2">
+                            Додати урок
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="/login/" class="btn btn-primary w-100">Увійдіть щоб записатись</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

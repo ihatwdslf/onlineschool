@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Всі курси{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Доступні курси</h2>
+
+{% if courses %}
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if course.cover %}
+                    <img src="{{ course.cover.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span>Немає обкладинки</span>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.title }}</h5>
+                    <p class="card-text text-muted">{{ course.description|truncatechars:100 }}</p>
+                    <p class="card-text"><small>Викладач: {{ course.teacher.username }}</small></p>
+                    <a href="/courses/{{ course.pk }}/" class="btn btn-primary">Детальніше</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Курсів поки немає.</p>
+{% endif %}
+{% endblock %}

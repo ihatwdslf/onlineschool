@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Результат тесту{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <h2>Результат тесту</h2>
+        <h4 class="text-muted">{{ quiz.title }}</h4>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h1 class="display-1">{{ score }}%</h1>
+                <p>Правильних відповідей: {{ correct }} з {{ total }}</p>
+
+                {% if score >= 80 %}
+                    <div class="alert alert-success">Чудово! Ви успішно пройшли тест 🎉</div>
+                {% elif score >= 50 %}
+                    <div class="alert alert-warning">Непогано, але можна краще 💪</div>
+                {% else %}
+                    <div class="alert alert-danger">Спробуйте ще раз 📚</div>
+                {% endif %}
+
+                <a href="/lessons/{{ quiz.lesson.pk }}/" class="btn btn-primary mt-2">
+                    Повернутись до уроку
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

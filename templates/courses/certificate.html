@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Сертифікат{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card text-center p-5" style="border: 3px solid gold;">
+            <h1>🎓 Сертифікат</h1>
+            <p class="lead mt-3">Цей сертифікат підтверджує що</p>
+            <h2 class="text-primary">{{ user.username }}</h2>
+            <p class="lead">успішно завершив(ла) курс</p>
+            <h3>{{ course.title }}</h3>
+            <p class="text-muted mt-3">Дата: {{ date }}</p>
+            <p class="text-muted">Викладач: {{ course.teacher.username }}</p>
+
+            <button onclick="window.print()" class="btn btn-outline-primary mt-4">
+                🖨️ Роздрукувати
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
